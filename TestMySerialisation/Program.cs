@@ -4,6 +4,14 @@ using System.Linq;
 
 namespace TestMySerialisation
 {
+	class someClass
+	{
+		public string Name { get; set; }
+	}
+	struct someStruct
+	{
+		public string Name { get; set; }
+	}
 	internal class Program
 	{
 		private static void Main(string[] args)
@@ -24,13 +32,17 @@ namespace TestMySerialisation
 			fullUser.SetKey(1000);
 
 
+			var testArr = new[] { 1, 2, 3, 4, 5 };
+			var testList = new List<int> { 1, 2, 3, 4, 5 };
+			var someClass = new someClass();
+			var someStruct = new someStruct();
+
 			var maxSize = int.Parse("fff", System.Globalization.NumberStyles.HexNumber);
 			Console.WriteLine(maxSize);
 			Console.WriteLine(fullUser.GetDocs(1001));
 			#endregion
 
-			var testArr = new[] { 1, 2, 3, 4, 5 };
-			var testList = new List<int> { 1, 2, 3, 4, 5 };
+			
 
 			var s = new MySerialization();
 
@@ -38,9 +50,9 @@ namespace TestMySerialisation
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine();
-			Console.WriteLine("userExemplar");
+			Console.WriteLine("UserExemplar");
 			Console.WriteLine(s.SerToString(user));
-			Console.WriteLine("FulluserExemplar");
+			Console.WriteLine("FullUserExemplar");
 			Console.WriteLine(s.SerToString(fullUser));
 			Console.WriteLine("testArr");
 			Console.WriteLine(s.SerToString(testArr));
@@ -54,6 +66,11 @@ namespace TestMySerialisation
 			Console.WriteLine(s.SerToString("123"));
 			Console.WriteLine("foodTest - Struct Exemplar");
 			Console.WriteLine(s.SerToString(foodTest));
+
+			Console.WriteLine("someClass - not serializable class");
+			Console.WriteLine(s.SerToString(someClass));
+			Console.WriteLine("someStruct - not serializable struct");
+			Console.WriteLine(s.SerToString(someStruct));
 
 
 
@@ -77,15 +94,20 @@ namespace TestMySerialisation
 			Console.WriteLine(type.IsValueType + " < IsValueType");
 			Console.WriteLine(type.IsGenericType + " < IsGenericType");
 			Console.WriteLine(type.IsArray + " < IsArray");
-			Console.WriteLine(type.IsNotPublic + " < IsNotPublic");
-			Console.WriteLine(type.IsPublic + " < IsPublic");
 			Console.Write("Get Attribute: ");
 			var attr = type.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name == "SerialisationClassAttribute");
 			Console.WriteLine(attr != null);
 
-			//TODO: Определить является значение классом/структурой или списком/массивом или заглушкой (итоговое значение)
-
-
+			//TODO: Определить является значение классом/структурой или списком или массивом или заглушкой (итоговое значение)
+			Console.WriteLine("Определение: ");
+			if (attr != null)
+			{
+				Console.WriteLine("наше творение(класс структура");
+			}
+			else
+			{
+				Console.WriteLine("массив либо лист либо заглушка");
+			}
 
 			return null;
 		}
