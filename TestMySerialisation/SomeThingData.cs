@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TestMySerialisation.Attributes;
+using Lib.MySerialisation;
+
+
 namespace TestMySerialisation
 {
 	[SerialisationClass]

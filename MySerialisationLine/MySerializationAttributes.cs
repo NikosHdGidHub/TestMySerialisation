@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestMySerialisation.Attributes
+namespace Lib.MySerialisation
 {
     [System.AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-    sealed class SerialisationClassAttribute : Attribute
+    public sealed class SerialisationClassAttribute : Attribute
     {
         
     }
     [System.AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    sealed class NonSerialisationPropAttribute : Attribute
+    public sealed class NonSerialisationPropAttribute : Attribute
     {
 
     }

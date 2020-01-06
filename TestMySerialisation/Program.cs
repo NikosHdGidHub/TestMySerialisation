@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
+using Lib.MySerialisation;
+
 
 namespace TestMySerialisation
 {
-	class someClass
+	internal class someClass
 	{
 		public string Name { get; set; }
 	}
-	struct someStruct
+
+	internal struct someStruct
 	{
 		public string Name { get; set; }
 	}
@@ -37,44 +40,48 @@ namespace TestMySerialisation
 			var someClass = new someClass();
 			var someStruct = new someStruct();
 
-			var maxSize = int.Parse("fff", System.Globalization.NumberStyles.HexNumber);
+
+			var maxSize = int.Parse("fff", NumberStyles.HexNumber);
 			Console.WriteLine(maxSize);
 			Console.WriteLine(fullUser.GetDocs(1001));
 			#endregion
 
-			
 
-			var s = new MySerialization();
+
+			var serialisation = new MySerialization();
 
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine("UserExemplar");
-			Console.WriteLine(s.SerToString(user));
+			Console.WriteLine(serialisation.SerToString(user));
 			Console.WriteLine("FullUserExemplar");
-			Console.WriteLine(s.SerToString(fullUser));
+			Console.WriteLine(serialisation.SerToString(fullUser));
 			Console.WriteLine("testArr");
-			Console.WriteLine(s.SerToString(testArr));
+			Console.WriteLine(serialisation.SerToString(testArr));
 			Console.WriteLine("testList");
-			Console.WriteLine(s.SerToString(testList));
+			Console.WriteLine(serialisation.SerToString(testList));
 			Console.WriteLine("12 - num int");
-			Console.WriteLine(s.SerToString(12));
+			Console.WriteLine(serialisation.SerToString(12));
 			Console.WriteLine("1 - char");
-			Console.WriteLine(s.SerToString('1'));
+			Console.WriteLine(serialisation.SerToString('1'));
 			Console.WriteLine("123 - string");
-			Console.WriteLine(s.SerToString("123"));
+			Console.WriteLine(serialisation.SerToString("123"));
 			Console.WriteLine("foodTest - Struct Exemplar");
-			Console.WriteLine(s.SerToString(foodTest));
+			Console.WriteLine(serialisation.SerToString(foodTest));
 
 			Console.WriteLine("someClass - not serializable class");
-			Console.WriteLine(s.SerToString(someClass));
+			Console.WriteLine(serialisation.SerToString(someClass));
 			Console.WriteLine("someStruct - not serializable struct");
-			Console.WriteLine(s.SerToString(someStruct));
+			Console.WriteLine(serialisation.SerToString(someStruct));
 
 
-
-
+			string lenData;
+			string result;
+			lenData = serialisation.ObjectHandler("123456789023 sdf sdf f2333ds fs sdf22323233131213 dfd fds 1234567890123456", out result);
+			lenData = serialisation.ObjectHandler(5670125345670123456, out  result);
+			lenData = serialisation.ObjectHandler(434645435, out  result);
 
 
 			Console.ReadLine();
@@ -82,38 +89,5 @@ namespace TestMySerialisation
 
 	}
 
-	internal class MySerialization
-	{
-		public string SerToString(object data)
-		{
-			var type = data.GetType();
-			Console.WriteLine(data + " < ToString");
-			Console.WriteLine(type.Name + " < Name");
-			Console.WriteLine(type.FullName + " < FullName");
-			Console.WriteLine(type.IsClass + " < IsClass");
-			Console.WriteLine(type.IsValueType + " < IsValueType");
-			Console.WriteLine(type.IsGenericType + " < IsGenericType");
-			Console.WriteLine(type.IsArray + " < IsArray");
-			Console.Write("Get Attribute: ");
-			var attr = type.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name == "SerialisationClassAttribute");
-			Console.WriteLine(attr != null);
-
-			//TODO: Определить является значение классом/структурой или списком или массивом или заглушкой (итоговое значение)
-			Console.WriteLine("Определение: ");
-			if (attr != null)
-			{
-				Console.WriteLine("наше творение(класс структура");
-			}
-			else
-			{
-				Console.WriteLine("массив либо лист либо заглушка");
-			}
-
-			return null;
-		}
-		public object Deser()
-		{
-			throw new NotImplementedException();
-		}
-	}
+	
 }
